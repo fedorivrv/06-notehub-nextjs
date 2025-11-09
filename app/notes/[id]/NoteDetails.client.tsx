@@ -1,33 +1,35 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { fetchNoteById } from '@/lib/api';
-import css from './NoteDetails.module.css';
+import { fetchNoteById } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+
+import css from "./NoteDetails.module.css"
 
 export default function NoteDetailsClient() {
-  const params = useParams();
-  const id = Array.isArray(params.id) ? params.id[0] : params.id;
-
-  const { data: note, isLoading, error } = useQuery({
-    queryKey: ['note', id],
-    queryFn: () => fetchNoteById(id!),
-    enabled: !!id, // запит виконується тільки якщо id існує
+  const { id } = useParams();
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["note", id],
+    queryFn: () => fetchNoteById(id as string),
+    refetchOnMount: false,
+    enabled: !!id,
   });
 
-  if (isLoading) return <p>Loading, please wait...</p>;
-  if (error || !note) return <p>Something went wrong.</p>;
-
   return (
-    <div className={css.container}>
-      <div className={css.item}>
-        <div className={css.header}>
-          <h2>{note.title}</h2>
+    <>
+      {isLoading && <p>Loading, please wait...</p>}
+      {isError && <p>Something went wrong.</p>}
+      {data && (
+        <div className={css.container}>
+          <div className={css.item}>
+            <div className={css.header}>
+              <h2>{data.title}</h2>
+            </div>
+            <p className={css.content}>{data.content}</p>
+            <p className={css.date}>{data.createdAt}</p>
+          </div>
         </div>
-        <p className={css.content}>{note.content}</p>
-        <p className={css.date}>Created: {new Date(note.createdAt).toLocaleString()}</p>
-        {note.tag && <p className={css.tag}>Tag: {note.tag}</p>}
-      </div>
-    </div>
+      )}
+    </>
   );
 }

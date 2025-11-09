@@ -13,10 +13,10 @@ const api = axios.create({
 
 export interface GetNoteResponse {
   notes: Note[];
-  page: number;
-  perPage: number;
-  totalPages: number;
-  totalNotes: number;
+  page?: number;
+  perPage?: number;
+  totalPages?: number;
+  totalNotes?: number;
 }
 
 // === Отримати нотатки ===
