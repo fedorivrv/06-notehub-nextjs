@@ -15,7 +15,7 @@ export interface GetNoteResponse {
   notes: Note[];
   page?: number;
   perPage?: number;
-  totalPages?: number;
+  totalPages: number;
   totalNotes?: number;
 }
 

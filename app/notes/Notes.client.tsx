@@ -1,7 +1,8 @@
 "use client";
+
 import { useState } from "react";
 import css from "../notes/page.module.css";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { useDebouncedCallback } from "use-debounce";
 import { fetchNotes } from "@/lib/api";
 import NoteList from "@/components/NoteList/NoteList";
@@ -36,7 +37,7 @@ export default function NotesClient() {
     <div className={css.app}>
       <header className={css.toolbar}>
         <SearchBox onSearch={handleSearch} searchQuery={topic} />
-       {isSuccess && data && data.totalPages > 1 && (
+        {isSuccess && data.totalPages > 1 && (
           <Pagination
             totalPages={data?.totalPages}
             currentPage={page}
@@ -48,11 +49,13 @@ export default function NotesClient() {
         </button>
       </header>
       {isLoading && <Loading />}
-      {isError && <Error error={error} />}
+      {isError && <Error message={String(error)} />}
       {data && <NoteList notes={data.notes} />}
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          <NoteForm onClose={closeModal} />
+          <NoteForm onCancel={closeModal}       
+                    onSuccess={closeModal}   
+          />  
         </Modal>
       )}
     </div>

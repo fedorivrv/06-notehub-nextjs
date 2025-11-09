@@ -9,6 +9,7 @@ import { createNote } from "@/lib/api";
 interface NoteFormProps {
   onCancel: () => void;
   onSuccess?: () => void; 
+  onClose?: () => void;
 }
 
 const TAG_OPTIONS: NoteTag[] = [
