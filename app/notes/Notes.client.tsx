@@ -9,8 +9,8 @@ import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
 import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
-import Loading from "../loading";
-import Error from "./error";
+import Loading from "@/components/Loader/Loader";
+import Error from "@/components/ErrorMessege/ErrorMessege";
 
 export default function NotesClient() {
   const [page, setPage] = useState(1);
@@ -36,7 +36,7 @@ export default function NotesClient() {
     <div className={css.app}>
       <header className={css.toolbar}>
         <SearchBox onSearch={handleSearch} searchQuery={topic} />
-        {isSuccess && data.totalPages > 1 && (
+       {isSuccess && data && data.totalPages > 1 && (
           <Pagination
             totalPages={data?.totalPages}
             currentPage={page}
