@@ -1,19 +1,18 @@
-import React from 'react';
-import css from './SearchBox.module.css';
+import css from "./SearchBox.module.css";
 
 interface SearchBoxProps {
-  value: string;
-  onChange: React.Dispatch<React.SetStateAction<string>>;
+  searchQuery: string;
+  onSearch: (value: string) => void;
 }
 
-export default function SearchBox({ value, onChange }: SearchBoxProps) {
+export default function SearchBox({ searchQuery, onSearch }: SearchBoxProps) {
   return (
     <input
       className={css.input}
       type="text"
       placeholder="Пошук нотаток..."
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
+      value={searchQuery}
+      onChange={(e) => onSearch(e.target.value)}
     />
   );
 }
